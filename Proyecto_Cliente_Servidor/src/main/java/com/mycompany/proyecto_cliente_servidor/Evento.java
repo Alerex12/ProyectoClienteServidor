@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.mycompany.proyecto_cliente_servidor;
 
 import java.util.Date;
@@ -10,6 +6,8 @@ import java.util.Date;
  *
  * @author aleja
  */
+
+//clase abstracta evento de la cual heredan los demas eventos del programa
 public abstract class Evento {
     protected String nombre;
     protected int id;

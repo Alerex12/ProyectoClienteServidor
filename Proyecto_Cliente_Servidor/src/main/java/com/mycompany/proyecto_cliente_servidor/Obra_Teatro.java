@@ -21,7 +21,7 @@ public class Obra_Teatro extends Evento implements Manipulacion_Evento{
     }
     
     
-    
+    //Los metodos estan vacios ya que todavia no se decide si se haran aqui o en la clase servidor
         @Override
     public void mostrarEvento() {
         

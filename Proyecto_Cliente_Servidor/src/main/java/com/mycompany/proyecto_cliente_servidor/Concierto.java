@@ -16,7 +16,7 @@ public class Concierto extends Evento implements Manipulacion_Evento{
     public Concierto() {
     }
     
-    
+    //Los metodos estan vacios ya que todavia no se decide si se haran aqui o en la clase servidor
     @Override
     public void mostrarEvento() {
         

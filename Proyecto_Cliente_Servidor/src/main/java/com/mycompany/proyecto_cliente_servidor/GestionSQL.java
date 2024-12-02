@@ -9,6 +9,9 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+//Clase encagarda de manejar todo lo relacionado con la base de datos
+//se utilizara sqlite como se habia acordado desde el inicio
 public class GestionSQL {
     private static String url= "jdbc:sqlite:cursos.db";
     
@@ -404,7 +407,7 @@ public class GestionSQL {
 
     public static void actualizarCliente(Cliente c) {
         
-                String sql = "UPDATE conciertos SET cedula=?, nombre=?, apellidos=?, usuario=?, clave=?, correo=?, tarjeta=?, fecha=? WHERE cedula=?";
+        String sql = "UPDATE conciertos SET cedula=?, nombre=?, apellidos=?, usuario=?, clave=?, correo=?, tarjeta=?, fecha=? WHERE cedula=?";
         try (Connection conn = DriverManager.getConnection(url);
                 PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
