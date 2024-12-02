@@ -9,10 +9,9 @@ public class Evento_Deportivo extends Evento implements Manipulacion_Evento{
     private String equipo2;
     private String tipoDeTorneo;
 
-    public Evento_Deportivo(String equipo1, String equipo2, String tipoDeTorneo, String nombre,
-            int id, int cantidadTickets, Date fecha, String lugar, String asiento,
-            String organizador, Boleto boleto) {
-        super(nombre, id, cantidadTickets, fecha, lugar, asiento, organizador, boleto);
+    public Evento_Deportivo(int id,String equipo1, String equipo2, String tipoDeTorneo, String nombre,
+            int cantidadTickets, Date fecha, String lugar, String organizador, Boleto boleto) {
+        super(nombre, id, cantidadTickets, fecha, lugar, organizador, boleto);
         this.equipo1 = equipo1;
         this.equipo2 = equipo2;
         this.tipoDeTorneo = tipoDeTorneo;
@@ -107,14 +106,6 @@ public class Evento_Deportivo extends Evento implements Manipulacion_Evento{
 
     public void setLugar(String lugar) {
         this.lugar = lugar;
-    }
-
-    public String getAsiento() {
-        return asiento;
-    }
-
-    public void setAsiento(String asiento) {
-        this.asiento = asiento;
     }
 
     public String getOrganizador() {

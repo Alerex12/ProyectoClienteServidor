@@ -7,9 +7,9 @@ public class Concierto extends Evento implements Manipulacion_Evento{
     
     private String nombreArtista;
 
-    public Concierto(String nombreArtista, String nombre, int id, int cantidadTickets, Date fecha,
-            String lugar, String asiento, String organizador, Boleto boleto) {
-        super(nombre, id, cantidadTickets, fecha,lugar, asiento, organizador, boleto);
+    public Concierto(int id,String nombreArtista, String nombre,int cantidadTickets, Date fecha,
+            String lugar, String organizador, Boleto boleto) {
+        super(nombre, id, cantidadTickets, fecha,lugar,organizador, boleto);
         this.nombreArtista = nombreArtista;
     }
 
@@ -86,14 +86,6 @@ public class Concierto extends Evento implements Manipulacion_Evento{
 
     public void setLugar(String lugar) {
         this.lugar = lugar;
-    }
-
-    public String getAsiento() {
-        return asiento;
-    }
-
-    public void setAsiento(String asiento) {
-        this.asiento = asiento;
     }
 
     public String getOrganizador() {

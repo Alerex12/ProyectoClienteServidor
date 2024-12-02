@@ -9,9 +9,9 @@ public class Obra_Teatro extends Evento implements Manipulacion_Evento{
     private String nomObra;
     private String compania;
 
-    public Obra_Teatro(String nomObra, String compania, String nombre, int id, int cantidadTickets,
-            Date fecha, String lugar, String asiento, String organizador, Boleto boleto) {
-        super(nombre, id, cantidadTickets, fecha, lugar, asiento, organizador, boleto);
+    public Obra_Teatro(int id,String nomObra, String compania, String nombre,int cantidadTickets,
+            Date fecha, String lugar,String organizador, Boleto boleto) {
+        super(nombre, id, cantidadTickets, fecha, lugar, organizador, boleto);
         this.nomObra = nomObra;
         this.compania = compania;
     }
@@ -100,13 +100,6 @@ public class Obra_Teatro extends Evento implements Manipulacion_Evento{
         this.lugar = lugar;
     }
 
-    public String getAsiento() {
-        return asiento;
-    }
-
-    public void setAsiento(String asiento) {
-        this.asiento = asiento;
-    }
 
     public String getOrganizador() {
         return organizador;

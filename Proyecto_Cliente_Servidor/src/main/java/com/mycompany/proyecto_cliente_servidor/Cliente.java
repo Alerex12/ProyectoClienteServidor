@@ -14,7 +14,7 @@ public class Cliente {
     private String tarjeta;
     private Date fechaNacimiento;
 
-    public Cliente(String nombre, String apellido, String cedula, String usuario, String clave, String correo, String tarjeta, Date fechaNacimiento) {
+    public Cliente(String cedula, String nombre, String apellido,String usuario, String clave, String correo, String tarjeta, Date fechaNacimiento) {
         this.nombre = nombre;
         this.apellido = apellido;
         this.cedula = cedula;
