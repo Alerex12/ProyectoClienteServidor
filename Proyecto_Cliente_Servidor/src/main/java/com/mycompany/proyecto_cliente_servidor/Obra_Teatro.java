@@ -10,8 +10,8 @@ public class Obra_Teatro extends Evento implements Manipulacion_Evento{
     private String compania;
 
     public Obra_Teatro(int id,String nomObra, String compania, String nombre,int cantidadTickets,
-            Date fecha, String lugar,String organizador, Boleto boleto) {
-        super(nombre, id, cantidadTickets, fecha, lugar, organizador, boleto);
+            Date fecha, String lugar,String organizador) {
+        super(nombre, id, cantidadTickets, fecha, lugar, organizador);
         this.nomObra = nomObra;
         this.compania = compania;
     }
@@ -28,19 +28,10 @@ public class Obra_Teatro extends Evento implements Manipulacion_Evento{
     }
 
     @Override
-    public void venderEntrada() {
-       
-    }
-
-    @Override
     public void gestionarDisponibilidad() {
        
     }
 
-    @Override
-    public void CrearEvento() {
-       
-    }
     
     
 
@@ -109,20 +100,12 @@ public class Obra_Teatro extends Evento implements Manipulacion_Evento{
         this.organizador = organizador;
     }
 
-    public Object getVoleto() {
-        return boleto;
-    }
-
-    public void setVoleto(Boleto boleto) {
-        this.boleto = boleto;
-    }  
-    
     @Override
     public String toString() {
         return "Nombre de la obra: "+this.nomObra+ ", Nombre de la compania:"+this.compania +
                 ", Nombre del evento: "+this.nombre+", ID del evento: "+this.id+
                 ", cantidad de tickets: "+this.cantidadTickets+
                 ", fecha: "+this.fecha+", String lugar: "+this.lugar+
-                ", Organizador del evento: "+this.organizador+ ", Boleto: "+ boleto+"\n";
+                ", Organizador del evento: "+this.organizador+"\n";
     }
 }

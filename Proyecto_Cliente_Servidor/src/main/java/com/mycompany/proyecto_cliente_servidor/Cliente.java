@@ -1,7 +1,8 @@
 
 package com.mycompany.proyecto_cliente_servidor;
 
-import java.util.Date;
+
+import com.mycompany.proyecto_cliente_servidor_GUI.Fcliente;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -17,14 +18,12 @@ public class Cliente {
     private String clave;
     private String correo;
     private String tarjeta;
-    private Date fechaNacimiento;
     //metodos necesarios para conectarse al server
     private Socket socket;
-    private HiloCliente hiloCliente;
     private ObjectInputStream input;
     private ObjectOutputStream output;
     
-    public Cliente(String cedula, String nombre, String apellido,String usuario, String clave, String correo, String tarjeta, Date fechaNacimiento) {
+    public Cliente(String cedula, String nombre, String apellido,String usuario, String clave, String correo, String tarjeta) {
         this.nombre = nombre;
         this.apellido = apellido;
         this.cedula = cedula;
@@ -32,7 +31,7 @@ public class Cliente {
         this.clave = clave;
         this.correo = correo;
         this.tarjeta = tarjeta;
-        this.fechaNacimiento = fechaNacimiento;
+       
     }
     
     public Cliente() {
@@ -47,15 +46,14 @@ public class Cliente {
             this.input = new ObjectInputStream( this.socket.getInputStream()); 
             this.output.writeObject(nombre);
             this.output.flush();
-            //aqui se iniciaria el hilo cliente una vez este hecha la clase
-            
+            Thread mensajeServidor = new Thread(new ControladorMensajes(socket));
+            mensajeServidor.start();
+              
         }catch(IOException e){
             return false;
         }
         return true;
     }
-    
-   
 
     public String getNombre() {
         return nombre;
@@ -112,24 +110,47 @@ public class Cliente {
     public void setTarjeta(String tarjeta) {
         this.tarjeta = tarjeta;
     }
-
-    public Date getFechaNacimiento() {
-        return fechaNacimiento;
-    }
-
-    public void setFechaNacimiento(Date fechaNacimiento) {
-        this.fechaNacimiento = fechaNacimiento;
-    }
     
     @Override
     public String toString(){
         return "Nombre: "+this.nombre+ ", Apellido: "+this.apellido+", Cedula: "+this.cedula+
                 ", Nombre de usuario: "+this.usuario+", Clave: "+this.clave+
-                ", Correo electronico: "+this.correo+ ", Tarjeta: "+this.tarjeta+
-                ", Fecha de nacimiento: "+this.fechaNacimiento;
+                ", Correo electronico: "+this.correo+ ", Tarjeta: "+this.tarjeta;
     
     }
     
     
+    class ControladorMensajes implements Runnable{
+        
+        private Socket socket;
+        private ObjectInputStream input;
+        private Fcliente cliente;
+
+        public ControladorMensajes(Socket socket) {
+            this.socket = socket;
+        }
+        @Override
+        public void run() {
+            
+             while(true){
+            String mensaje;
+            try{
+                mensaje=(String)this.input.readObject();
+                
+            }catch(IOException e){
+                System.out.println(e.getMessage());
+            
+            }catch(ClassNotFoundException e){
+                e.printStackTrace();
+            
+            }
+
+        }
+
+    }
+            
+        
+        }
     
-}
+    
+    }

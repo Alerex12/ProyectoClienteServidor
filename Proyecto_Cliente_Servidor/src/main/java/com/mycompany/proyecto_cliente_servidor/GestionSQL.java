@@ -13,7 +13,7 @@ import java.util.List;
 //Clase encagarda de manejar todo lo relacionado con la base de datos
 //se utilizara sqlite como se habia acordado desde el inicio
 public class GestionSQL {
-    private static String url= "jdbc:sqlite:cursos.db";
+    private static String url= "jdbc:sqlite:eventos.db";
     
     public static void crearTablaConciertos(){
         String sql = "CREATE TABLE IF NOT EXISTS conciertos("
@@ -23,8 +23,7 @@ public class GestionSQL {
                 + "cantidadTickets INTEGER,"
                 + "fecha ???,"
                 + "lugar TEXT NO NULL,"
-                + "organizador TEXT NO NULL,"
-                + "boleto ???" + ");";
+                + "organizador TEXT NO NULL"+ ");";
         try (Connection conn = DriverManager.getConnection(url); Statement stmt = conn.createStatement()) {
             stmt.execute(sql);
             System.out.println("La tabla de conciertos fue creada con exito!!!");
@@ -46,8 +45,7 @@ public class GestionSQL {
                 + "cantidadTickets INTEGER,"
                 + "fecha ???,"
                 + "lugar TEXT NO NULL,"
-                + "organizador TEXT NO NULL,"
-                + "boleto ???" + ");";
+                + "organizador TEXT NO NULL" +");";
         try (Connection conn = DriverManager.getConnection(url); Statement stmt = conn.createStatement()) {
             stmt.execute(sql);
             System.out.println("La tabla de obras de teatro fue creada con exito!!!");
@@ -69,8 +67,7 @@ public class GestionSQL {
                 + "cantidadTickets INTEGER,"
                 + "fecha ???,"
                 + "lugar TEXT NO NULL,"
-                + "organizador TEXT NO NULL,"
-                + "boleto ???" + ");";
+                + "organizador TEXT NO NULL" + ");";
         try (Connection conn = DriverManager.getConnection(url); Statement stmt = conn.createStatement()) {
             stmt.execute(sql);
             System.out.println("La tabla de eventos deportivos fue creada con exito!!!");
@@ -107,7 +104,7 @@ public class GestionSQL {
 
     public static void agregarConciertos(Concierto c) {
         
-        String insertsql = "INSERT INTO conciertos(id, nombreArtista, nombreEvento, cantidadTickets, fecha, lugar, organizador, boleto) VALUES (?,?,?,?,?,?,?,?)";
+        String insertsql = "INSERT INTO conciertos(id, nombreArtista, nombreEvento, cantidadTickets, fecha, lugar, organizador) VALUES (?,?,?,?,?,?,?)";
 
         try (Connection conn = DriverManager.getConnection(url);
                 PreparedStatement pstmt = conn.prepareStatement(insertsql)) {
@@ -116,11 +113,9 @@ public class GestionSQL {
             pstmt.setString(2, c.getNombreArtista());
             pstmt.setString(3, c.getNombre());
             pstmt.setInt(4, c.getCantidadTickets());
-            pstmt.setObject(5, c.getFecha());
+            pstmt.setDate(5,(java.sql.Date) c.getFecha());
             pstmt.setString(6, c.getLugar());
             pstmt.setString(7, c.getOrganizador());
-            pstmt.setObject(8, c.getVoleto());
-
             pstmt.executeUpdate();
             System.out.println("Los datos del concierto se guardaron en la tabla correctamente");
 
@@ -132,7 +127,7 @@ public class GestionSQL {
     }
     
     public static void agregarTeatro(Obra_Teatro o) {
-        String insertsql = "INSERT INTO obrasTeatro(id, nombreObra,nombreCompania, nombreEvento, cantidadTickets, fecha, lugar, organizador, boleto) VALUES (?,?,?,?,?,?,?,?,?)";
+        String insertsql = "INSERT INTO obrasTeatro(id, nombreObra,nombreCompania, nombreEvento, cantidadTickets, fecha, lugar, organizador) VALUES (?,?,?,?,?,?,?,?)";
 
         try (Connection conn = DriverManager.getConnection(url); PreparedStatement pstmt = conn.prepareStatement(insertsql)) {
 
@@ -141,10 +136,9 @@ public class GestionSQL {
             pstmt.setString(3, o.getCompania());
             pstmt.setString(4, o.getNombre());
             pstmt.setInt(5, o.getCantidadTickets());
-            pstmt.setObject(6, o.getFecha());
+            pstmt.setDate(6, (java.sql.Date) o.getFecha());
             pstmt.setString(7, o.getLugar());
             pstmt.setString(8, o.getOrganizador());
-            pstmt.setObject(9, o.getVoleto());
 
             pstmt.executeUpdate();
             System.out.println("Los datos de la obra de teatro se guardaron en la tabla correctamente");
@@ -157,7 +151,7 @@ public class GestionSQL {
     }
 
     public static void agregarDeportivo(Evento_Deportivo e) {
-        String insertsql = "INSERT INTO eventosDeportivos(id, equipo1, equipo2, tipoDeTorneo , nombreEvento, cantidadTickets, fecha, lugar, organizador, boleto) VALUES (?,?,?,?,?,?,?,?,?)";
+        String insertsql = "INSERT INTO eventosDeportivos(id, equipo1, equipo2, tipoDeTorneo , nombreEvento, cantidadTickets, fecha, lugar, organizado) VALUES (?,?,?,?,?,?,?,?)";
 
         try (Connection conn = DriverManager.getConnection(url); PreparedStatement pstmt = conn.prepareStatement(insertsql)) {
 
@@ -170,7 +164,7 @@ public class GestionSQL {
             pstmt.setDate(7, (java.sql.Date) e.getFecha());
             pstmt.setString(8, e.getLugar());
             pstmt.setString(9, e.getOrganizador());
-            pstmt.setObject(10, e.getBoleto());
+            
 
             pstmt.executeUpdate();
             System.out.println("Los datos del evento deportivo se guardaron en la tabla correctamente");
@@ -183,7 +177,7 @@ public class GestionSQL {
     }
 
     public static void agregarCliente(Cliente c) {
-        String insertsql = "INSERT INTO clientes(cedula, nombre, apellidos, usuario, clave, correo, tarjeta, fecha) VALUES (?,?,?,?,?,?,?,?)";
+        String insertsql = "INSERT INTO clientes(cedula, nombre, apellidos, usuario, clave, correo, tarjeta) VALUES (?,?,?,?,?,?,?)";
 
         try (Connection conn = DriverManager.getConnection(url);
                 PreparedStatement pstmt = conn.prepareStatement(insertsql)) {
@@ -195,7 +189,7 @@ public class GestionSQL {
             pstmt.setString(5, c.getClave());
             pstmt.setString(6, c.getCorreo());
             pstmt.setString(7, c.getTarjeta());
-            pstmt.setDate(8, (java.sql.Date) c.getFechaNacimiento());
+            
             
             pstmt.executeUpdate();
             System.out.println("Los datos del cliente se guardaron en la tabla correctamente");
@@ -225,10 +219,10 @@ public class GestionSQL {
                 Date fecha= rs.getDate("fecha");//********
                 String lugar= rs.getString("lugar");
                 String organizador= rs.getString("organizador");
-                Boleto boleto= (Boleto)rs.getObject("boleto");//********
+                
 
                 Concierto concierto = new Concierto(id,nombreArtista,nombre,cantidadTickets,
-                        fecha, lugar, organizador, boleto);
+                        fecha, lugar, organizador);
 
                 listaConciertos.add(concierto);
             }
@@ -257,10 +251,10 @@ public class GestionSQL {
                 Date fecha= rs.getDate("fecha");//******
                 String lugar= rs.getString("lugar");
                 String organizador= rs.getString("organizador");
-                Boleto boleto= (Boleto)rs.getObject("boleto");//******
+                
 
                 Obra_Teatro obra = new Obra_Teatro(id,nomObra,compania,nombre,cantidadTickets,
-                        fecha, lugar, organizador, boleto);
+                        fecha, lugar, organizador);
 
                 listaObras.add(obra);
             }
@@ -291,10 +285,10 @@ public class GestionSQL {
                 Date fecha = rs.getDate("fecha");//******
                 String lugar = rs.getString("lugar");
                 String organizador = rs.getString("organizador");
-                Boleto boleto = (Boleto) rs.getObject("boleto");//******
+              
 
                 Evento_Deportivo deportivo = new Evento_Deportivo(id, equipo1,equipo2,tipoDeTorneo, nombre,
-                        cantidadTickets, fecha, lugar, organizador, boleto);
+                        cantidadTickets, fecha, lugar, organizador);
 
                 listaDeportivos.add(deportivo);
             }
@@ -323,8 +317,7 @@ public class GestionSQL {
                 String clave = rs.getString("clave");
                 String correo = rs.getString("correo");
                 String tarjeta = rs.getString("tarjeta");
-                Date fecha = rs.getDate("fecha");//******
-                Cliente cliente= new Cliente(cedula,nombre,apellidos, usuario, clave, correo,tarjeta,fecha);
+                Cliente cliente= new Cliente(cedula,nombre,apellidos, usuario, clave, correo,tarjeta);
 
                 listaClientes.add(cliente);
             }
@@ -339,7 +332,7 @@ public class GestionSQL {
     
     public static void actualizarConciertos(Concierto c) {
         
-         String sql = "UPDATE conciertos SET id=?, nombreArtista=?, nombreEvento=?, cantidadTickets=?, fecha=?, lugar=?, organizador=?, boleto=? WHERE id=?";
+         String sql = "UPDATE conciertos SET id=?, nombreArtista=?, nombreEvento=?, cantidadTickets=?, fecha=?, lugar=?, organizador=? WHERE id=?";
         try (Connection conn = DriverManager.getConnection(url);
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.setInt(1, c.getId());
@@ -349,7 +342,7 @@ public class GestionSQL {
             pstmt.setObject(5, c.getFecha());
             pstmt.setString(6, c.getLugar());
             pstmt.setString(7, c.getOrganizador());
-            pstmt.setObject(8, c.getVoleto());
+       
 
             pstmt.executeUpdate();
         }catch(SQLException e){
@@ -360,7 +353,7 @@ public class GestionSQL {
     }
 
     public static void actualizarTeatro(Obra_Teatro o) {
-        String sql = "UPDATE conciertos SET id=?, nombreObra=?,nombreCompania=?, nombreEvento=?, cantidadTickets=?, fecha=?, lugar=?, organizador=?, boleto=? WHERE id=?";
+        String sql = "UPDATE obrasTeatro SET id=?, nombreObra=?,nombreCompania=?, nombreEvento=?, cantidadTickets=?, fecha=?, lugar=?, organizador=? WHERE id=?";
         try (Connection conn = DriverManager.getConnection(url); 
                 PreparedStatement pstmt = conn.prepareStatement(sql)) {
             
@@ -372,7 +365,7 @@ public class GestionSQL {
             pstmt.setObject(6, o.getFecha());
             pstmt.setString(7, o.getLugar());
             pstmt.setString(8, o.getOrganizador());
-            pstmt.setObject(9, o.getVoleto());
+            
 
             pstmt.executeUpdate();
         } catch (SQLException e) {
@@ -383,7 +376,7 @@ public class GestionSQL {
     }
 
     public static void actualizarDeportivo(Evento_Deportivo e) {
-        String sql = "UPDATE conciertos SET id=?, equipo1=?,equipo2=?,tipoDeTorneo=?, nombreEvento=?, cantidadTickets=?, fecha=?, lugar=?, organizador=?, boleto=? WHERE id=?";
+        String sql = "UPDATE eventosDeportivos SET id=?, equipo1=?,equipo2=?,tipoDeTorneo=?, nombreEvento=?, cantidadTickets=?, fecha=?, lugar=?, organizador=? WHERE id=?";
         try (Connection conn = DriverManager.getConnection(url); PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             pstmt.setInt(1, e.getId());
@@ -395,7 +388,7 @@ public class GestionSQL {
             pstmt.setDate(7, (java.sql.Date) e.getFecha());
             pstmt.setString(8, e.getLugar());
             pstmt.setString(9, e.getOrganizador());
-            pstmt.setObject(10, e.getBoleto());
+           
 
             pstmt.executeUpdate();
         } catch (SQLException r) {
@@ -407,7 +400,7 @@ public class GestionSQL {
 
     public static void actualizarCliente(Cliente c) {
         
-        String sql = "UPDATE conciertos SET cedula=?, nombre=?, apellidos=?, usuario=?, clave=?, correo=?, tarjeta=?, fecha=? WHERE cedula=?";
+        String sql = "UPDATE clientes SET cedula=?, nombre=?, apellidos=?, usuario=?, clave=?, correo=?, tarjeta=? WHERE cedula=?";
         try (Connection conn = DriverManager.getConnection(url);
                 PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
@@ -418,7 +411,7 @@ public class GestionSQL {
             pstmt.setString(5, c.getClave());
             pstmt.setString(6, c.getCorreo());
             pstmt.setString(7, c.getTarjeta());
-            pstmt.setDate(8, (java.sql.Date) c.getFechaNacimiento());
+            
 
             pstmt.executeUpdate();
         } catch (SQLException r) {
@@ -427,4 +420,70 @@ public class GestionSQL {
         }
 
     }
+    
+    public static void eliminarConcierto(String nombre) {
+        String sql = "DELETE FROM conciertos WHERE nombre=?";
+
+        try (Connection conn = DriverManager.getConnection(url);
+                PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setString(1, nombre);
+            pstmt.executeUpdate();
+            System.out.println("Concierto eliminado correctamente.");
+
+        } catch (SQLException e) {
+            System.out.println("Error al eliminar tabla concierto" + e.getMessage());
+
+        }
+
+    }
+    
+    public static void eliminarObra(String nombre) {
+        String sql = "DELETE FROM obrasTeatro WHERE nombre=?";
+
+        try (Connection conn = DriverManager.getConnection(url); PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setString(1, nombre);
+            pstmt.executeUpdate();
+            System.out.println("Obra eliminada correctamente.");
+
+        } catch (SQLException e) {
+            System.out.println("Error al eliminar tabla obras" + e.getMessage());
+
+        }
+
+    }
+    
+    public static void eliminarDeportivo(String nombre) {
+        String sql = "DELETE FROM eventosDeportivos WHERE nombre=?";
+
+        try (Connection conn = DriverManager.getConnection(url); PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setString(1, nombre);
+            pstmt.executeUpdate();
+            System.out.println("Evento deportivo eliminado correctamente.");
+
+        } catch (SQLException e) {
+            System.out.println("Error al eliminar tabla evento deportivo " + e.getMessage());
+
+        }
+
+    }
+    
+    public static void eliminarCliente(String cedula) {
+        String sql = "DELETE FROM clientes WHERE cedula=?";
+
+        try (Connection conn = DriverManager.getConnection(url); PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setString(1, cedula);
+            pstmt.executeUpdate();
+            System.out.println("Cliente eliminado correctamente.");
+
+        } catch (SQLException e) {
+            System.out.println("Error al eliminar tabla clientes" + e.getMessage());
+
+        }
+
+    }
+       
 }

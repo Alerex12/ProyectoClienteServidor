@@ -15,17 +15,16 @@ public abstract class Evento {
     protected Date fecha;
     protected String lugar;
     protected String organizador;
-    protected Boleto boleto;
+
 
     public Evento(String nombre, int id, int cantidadTickets, Date fecha,String lugar,
-           String organizador, Boleto boleto) {
+           String organizador) {
         this.nombre = nombre;
         this.id = id;
         this.cantidadTickets = cantidadTickets;
         this.fecha = fecha;
         this.lugar = lugar;
         this.organizador = organizador;
-        this.boleto = boleto;
     }
 
     public Evento() {

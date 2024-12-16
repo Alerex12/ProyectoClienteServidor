@@ -8,8 +8,8 @@ public class Concierto extends Evento implements Manipulacion_Evento{
     private String nombreArtista;
 
     public Concierto(int id,String nombreArtista, String nombre,int cantidadTickets, Date fecha,
-            String lugar, String organizador, Boleto boleto) {
-        super(nombre, id, cantidadTickets, fecha,lugar,organizador, boleto);
+            String lugar, String organizador) {
+        super(nombre, id, cantidadTickets, fecha,lugar,organizador);
         this.nombreArtista = nombreArtista;
     }
 
@@ -22,22 +22,12 @@ public class Concierto extends Evento implements Manipulacion_Evento{
         
     }
 
-    @Override
-    public void venderEntrada() {
-       
-    }
 
     @Override
     public void gestionarDisponibilidad() {
         
     }
 
-    @Override
-    public void CrearEvento() {
-      
-    }
-    
-    
     
 
     public String getNombreArtista() {
@@ -94,21 +84,13 @@ public class Concierto extends Evento implements Manipulacion_Evento{
 
     public void setOrganizador(String organizador) {
         this.organizador = organizador;
-    }
-
-    public Object getVoleto() {
-        return boleto;
-    }
-
-    public void setVoleto(Boleto voleto) {
-        this.boleto = voleto;
-    }  
+    } 
     
     @Override
     public String toString(){
         return "Nombre del artista: "+this.nombreArtista+", Nombre del evento: "+this.nombre+
                 ", ID del evento: "+this.id+", cantidad de tickets: "+this.cantidadTickets+
                 ", fecha: "+this.fecha+", String lugar: "+this.lugar+
-                ", Organizador del evento: "+this.organizador+ ", Boleto: "+ boleto+"\n";
+                ", Organizador del evento: "+this.organizador+ "\n";
     }
 }

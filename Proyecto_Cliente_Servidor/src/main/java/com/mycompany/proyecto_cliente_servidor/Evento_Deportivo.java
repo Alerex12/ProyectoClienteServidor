@@ -10,8 +10,8 @@ public class Evento_Deportivo extends Evento implements Manipulacion_Evento{
     private String tipoDeTorneo;
 
     public Evento_Deportivo(int id,String equipo1, String equipo2, String tipoDeTorneo, String nombre,
-            int cantidadTickets, Date fecha, String lugar, String organizador, Boleto boleto) {
-        super(nombre, id, cantidadTickets, fecha, lugar, organizador, boleto);
+            int cantidadTickets, Date fecha, String lugar, String organizador) {
+        super(nombre, id, cantidadTickets, fecha, lugar, organizador);
         this.equipo1 = equipo1;
         this.equipo2 = equipo2;
         this.tipoDeTorneo = tipoDeTorneo;
@@ -27,19 +27,10 @@ public class Evento_Deportivo extends Evento implements Manipulacion_Evento{
         
     }
 
-    @Override
-    public void venderEntrada() {
-       
-    }
 
     @Override
     public void gestionarDisponibilidad() {
         
-    }
-
-    @Override
-    public void CrearEvento() {
-       
     }
     
     
@@ -117,15 +108,6 @@ public class Evento_Deportivo extends Evento implements Manipulacion_Evento{
         this.organizador = organizador;
     }
 
-    public Boleto getBoleto() {
-        return boleto;
-    }
-
-    public void setBoleto(Boleto boleto) {
-        this.boleto = boleto;
-    }  
-    
-    
     @Override
     public String toString() {
          return ", Nombre del evento: "+this.nombre+", ID del evento: "+this.id+
@@ -133,7 +115,7 @@ public class Evento_Deportivo extends Evento implements Manipulacion_Evento{
                 ", torneo disputado: "+this.tipoDeTorneo+
                  ", cantidad de tickets: "+this.cantidadTickets+
                 ", fecha: "+this.fecha+", String lugar: "+this.lugar+
-                 ", Organizador del evento: "+this.organizador+ ", Boleto: "+ boleto+"\n";
+                 ", Organizador del evento: "+this.organizador+"\n";
         
     }
     

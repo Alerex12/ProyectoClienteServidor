@@ -5,9 +5,7 @@ public interface Manipulacion_Evento {
     //interfaz que define los metodos que se realizaran con cada evento
     
     public void mostrarEvento();
-    public void venderEntrada();
     public void gestionarDisponibilidad();
-    public void CrearEvento();
             
             
 }
