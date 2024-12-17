@@ -5,6 +5,7 @@
 package com.mycompany.proyecto_cliente_servidor_GUI;
 
 import com.mycompany.proyecto_cliente_servidor.Cliente;
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
@@ -16,11 +17,13 @@ import java.net.Socket;
 public class Fdeportivo extends javax.swing.JFrame {
     private Cliente cliente;
     private Socket socket;
-    private ObjectOutputStream output;
-    private ObjectInputStream input;
+    private ObjectOutputStream out;
+    private ObjectInputStream in;
   
     public Fdeportivo() {
         initComponents();
+        
+        
     }
 
     /**
@@ -81,6 +84,11 @@ public class Fdeportivo extends javax.swing.JFrame {
         organizadortxt.setText("Organizador");
 
         agregarBoton.setText("Agregar");
+        agregarBoton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                agregarBotonActionPerformed(evt);
+            }
+        });
 
         editarBoton.setText("Editar");
 
@@ -202,6 +210,32 @@ public class Fdeportivo extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void agregarBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_agregarBotonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_agregarBotonActionPerformed
+
+    private void conexionServidor() {
+        try {
+            socket = new Socket("127.0.0.1", 5000);
+            in = new ObjectInputStream(this.socket.getInputStream());
+            out = new ObjectOutputStream(this.socket.getOutputStream());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    
+    
+    
+    private String sendRequest(String request) throws IOException {
+        out.writeObject(request);
+        try {
+            return in.readLine();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return "Error";
+        }
+    }
  
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

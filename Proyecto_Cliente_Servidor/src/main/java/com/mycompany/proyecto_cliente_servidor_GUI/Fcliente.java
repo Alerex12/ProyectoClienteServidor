@@ -5,6 +5,8 @@
 package com.mycompany.proyecto_cliente_servidor_GUI;
 
 import com.mycompany.proyecto_cliente_servidor.Cliente;
+import java.awt.event.ActionEvent;
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
@@ -15,8 +17,8 @@ public class Fcliente extends javax.swing.JFrame {
     
     private Cliente cliente;
     private Socket socket;
-    private ObjectOutputStream output;
-    private ObjectInputStream input;
+    private ObjectOutputStream out;
+    private ObjectInputStream in;
 
     public Fcliente() {
         initComponents();
@@ -57,7 +59,7 @@ public class Fcliente extends javax.swing.JFrame {
         entradaTarjeta = new javax.swing.JTextField();
         botonAgregar = new javax.swing.JButton();
         editarBoton = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        eliminarBoton = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu7 = new javax.swing.JMenu();
         jMenu8 = new javax.swing.JMenu();
@@ -138,6 +140,11 @@ public class Fcliente extends javax.swing.JFrame {
         });
 
         botonAgregar.setText("Agregar");
+        botonAgregar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonAgregarActionPerformed(evt);
+            }
+        });
 
         editarBoton.setText("Editar");
         editarBoton.addActionListener(new java.awt.event.ActionListener() {
@@ -146,10 +153,10 @@ public class Fcliente extends javax.swing.JFrame {
             }
         });
 
-        jButton2.setText("Eliminar");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        eliminarBoton.setText("Eliminar");
+        eliminarBoton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                eliminarBotonActionPerformed(evt);
             }
         });
 
@@ -191,7 +198,7 @@ public class Fcliente extends javax.swing.JFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(editarBoton)
                                 .addGap(41, 41, 41)
-                                .addComponent(jButton2))
+                                .addComponent(eliminarBoton))
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                 .addComponent(entradaCedula)
                                 .addComponent(entradaNombre)
@@ -240,7 +247,7 @@ public class Fcliente extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(editarBoton)
-                            .addComponent(jButton2))
+                            .addComponent(eliminarBoton))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED))
                     .addGroup(layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -252,25 +259,53 @@ public class Fcliente extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void conexionServidor() {
+        try {
+            socket = new Socket("127.0.0.1", 5000);
+            in = new ObjectInputStream(this.socket.getInputStream());
+            out = new ObjectOutputStream(this.socket.getOutputStream());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private String sendRequest(String request) throws IOException {
+        out.writeObject(request);
+        try {
+            return in.readLine();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return "Error";
+        }
+    }
+    
+    
+    
+    
     private void entradaCedulaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_entradaCedulaActionPerformed
-        // TODO add your handling code here:
+
     }//GEN-LAST:event_entradaCedulaActionPerformed
 
     private void entradaNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_entradaNombreActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_entradaNombreActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void eliminarBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eliminarBotonActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton2ActionPerformed
+        
+        
+    }//GEN-LAST:event_eliminarBotonActionPerformed
 
     private void editarBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editarBotonActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_editarBotonActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
+    private void botonAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAgregarActionPerformed
+  
+    }//GEN-LAST:event_botonAgregarActionPerformed
+
+    
+    
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -311,6 +346,7 @@ public class Fcliente extends javax.swing.JFrame {
     private javax.swing.JLabel clavetxt;
     private javax.swing.JLabel correotxt;
     private javax.swing.JButton editarBoton;
+    private javax.swing.JButton eliminarBoton;
     private javax.swing.JTextField entradaApellido;
     private javax.swing.JTextField entradaCedula;
     private javax.swing.JTextField entradaClave;
@@ -318,7 +354,6 @@ public class Fcliente extends javax.swing.JFrame {
     private javax.swing.JTextField entradaNombre;
     private javax.swing.JTextField entradaTarjeta;
     private javax.swing.JTextField entradaUsuario;
-    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JMenu jMenu7;
