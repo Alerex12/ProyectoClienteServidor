@@ -5,10 +5,14 @@
 package com.mycompany.proyecto_cliente_servidor_GUI;
 
 import com.mycompany.proyecto_cliente_servidor.Cliente;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -22,6 +26,7 @@ public class Fconcierto extends javax.swing.JFrame {
     private ObjectInputStream in;
     public Fconcierto() {
         initComponents();
+        conexionServidor(); 
     }
 
     /**
@@ -92,13 +97,33 @@ public class Fconcierto extends javax.swing.JFrame {
                 return types [columnIndex];
             }
         });
+        jTable1.addContainerListener(new java.awt.event.ContainerAdapter() {
+            public void componentAdded(java.awt.event.ContainerEvent evt) {
+                jTable1ComponentAdded(evt);
+            }
+        });
         jScrollPane1.setViewportView(jTable1);
 
         agregarBoton.setText("Agregar");
+        agregarBoton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                agregarBotonActionPerformed(evt);
+            }
+        });
 
         editarBoton.setText("Editar");
+        editarBoton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                editarBotonActionPerformed(evt);
+            }
+        });
 
         eliminarBoton.setText("Eliminar");
+        eliminarBoton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                eliminarBotonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -185,6 +210,94 @@ public class Fconcierto extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void agregarBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_agregarBotonActionPerformed
+        agregarBoton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    sendRequest("Agregar," +"Concierto,"+ entradaID.getText()+ "," + entradaArtista.getText() +
+                            "," +  entradaNombre.getText()+","+entradaCant.getText()+","+
+                            entradaFecha.getText()+","+entradaLugar.getText()+","+entradaOrganizador.getText());
+                    clearFields();
+                } catch (IOException ex) {
+                    Logger.getLogger(Fconcierto.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        });    
+    }//GEN-LAST:event_agregarBotonActionPerformed
+
+    private void editarBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editarBotonActionPerformed
+                agregarBoton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    sendRequest("Editar," +"Concierto,"+ entradaID.getText()+ "," + entradaArtista.getText() +
+                            "," +  entradaNombre.getText()+","+entradaCant.getText()+","+
+                            entradaFecha.getText()+","+entradaLugar.getText()+","+entradaOrganizador.getText());
+                    clearFields();
+                } catch (IOException ex) {
+                    Logger.getLogger(Fconcierto.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        });     
+    }//GEN-LAST:event_editarBotonActionPerformed
+
+    private void eliminarBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eliminarBotonActionPerformed
+         eliminarBoton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    sendRequest("Eliminar,"+"Concierto," + entradaNombre.getText());
+                    clearFields();
+                } catch (IOException ex) {
+                    Logger.getLogger(Fcliente.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }}); 
+    }//GEN-LAST:event_eliminarBotonActionPerformed
+
+    private void jTable1ComponentAdded(java.awt.event.ContainerEvent evt) {//GEN-FIRST:event_jTable1ComponentAdded
+        try {
+            sendRequest("Mostrar," + "Concierto");
+        } catch (IOException ex) {
+            Logger.getLogger(Fcliente.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jTable1ComponentAdded
+
+    
+    
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(Fcliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(Fcliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(Fcliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(Fcliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
+
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                new Fconcierto().setVisible(true);
+                
+            }
+        });
+    }
      private void conexionServidor() {
         try {
             socket = new Socket("127.0.0.1", 5000);
@@ -203,6 +316,16 @@ public class Fconcierto extends javax.swing.JFrame {
             e.printStackTrace();
             return "Error";
         }
+    }
+    
+    private void clearFields() {
+        entradaID.setText("");
+        entradaArtista.setText("");
+        entradaNombre.setText("");
+        entradaCant.setText("");
+        entradaFecha.setText("");
+        entradaLugar.setText("");
+        entradaOrganizador.setText("");
     }
 
 

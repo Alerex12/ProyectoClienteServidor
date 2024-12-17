@@ -5,10 +5,14 @@
 package com.mycompany.proyecto_cliente_servidor_GUI;
 
 import com.mycompany.proyecto_cliente_servidor.Cliente;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -22,7 +26,7 @@ public class Fdeportivo extends javax.swing.JFrame {
   
     public Fdeportivo() {
         initComponents();
-        
+        conexionServidor(); 
         
     }
 
@@ -91,8 +95,18 @@ public class Fdeportivo extends javax.swing.JFrame {
         });
 
         editarBoton.setText("Editar");
+        editarBoton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                editarBotonActionPerformed(evt);
+            }
+        });
 
         eliminarBoton.setText("Eliminar");
+        eliminarBoton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                eliminarBotonActionPerformed(evt);
+            }
+        });
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -111,6 +125,11 @@ public class Fdeportivo extends javax.swing.JFrame {
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
+            }
+        });
+        jTable1.addContainerListener(new java.awt.event.ContainerAdapter() {
+            public void componentAdded(java.awt.event.ContainerEvent evt) {
+                jTable1ComponentAdded(evt);
             }
         });
         jScrollPane1.setViewportView(jTable1);
@@ -210,9 +229,99 @@ public class Fdeportivo extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+        public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(Fcliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(Fcliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(Fcliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(Fcliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
+
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                new Fdeportivo().setVisible(true);
+            }
+        });
+    }
+    
+    
     private void agregarBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_agregarBotonActionPerformed
-        // TODO add your handling code here:
+         agregarBoton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    sendRequest("Agregar," +"Evento deportivo,"+ entradaID.getText()+ "," + entradaEq1.getText()+","
+                            + entradaEq2.getText() +","+entradaTorneo.getText()+ "," +  entradaNombre.getText()+","+
+                            entradatickets.getText()+","+entradaFecha.getText()+","+
+                            entradalugar.getText()+","+entradaOrganizador.getText());
+                    clearFields();
+                } catch (IOException ex) {
+                    Logger.getLogger(Fconcierto.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        });  
     }//GEN-LAST:event_agregarBotonActionPerformed
+
+    private void editarBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editarBotonActionPerformed
+        agregarBoton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    sendRequest("Editar," + "Evento deportivo," + entradaID.getText() + "," + entradaEq1.getText() + ","
+                            + entradaEq2.getText() + "," + entradaTorneo.getText() + "," + entradaNombre.getText() + ","
+                            + entradatickets.getText() + "," + entradaFecha.getText() + ","
+                            + entradalugar.getText() + "," + entradaOrganizador.getText());
+                    clearFields();
+                } catch (IOException ex) {
+                    Logger.getLogger(Fconcierto.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }); 
+        
+        
+    }//GEN-LAST:event_editarBotonActionPerformed
+
+    private void eliminarBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eliminarBotonActionPerformed
+        eliminarBoton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    sendRequest("Eliminar,"+"Evento deportivo," + entradaNombre.getText());
+                    clearFields();
+                } catch (IOException ex) {
+                    Logger.getLogger(Fcliente.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }}); 
+        
+        
+        
+    }//GEN-LAST:event_eliminarBotonActionPerformed
+
+    private void jTable1ComponentAdded(java.awt.event.ContainerEvent evt) {//GEN-FIRST:event_jTable1ComponentAdded
+        try {
+            sendRequest("Mostrar," + "Evento deportivo");
+        } catch (IOException ex) {
+            Logger.getLogger(Fcliente.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jTable1ComponentAdded
 
     private void conexionServidor() {
         try {
@@ -235,6 +344,18 @@ public class Fdeportivo extends javax.swing.JFrame {
             e.printStackTrace();
             return "Error";
         }
+    }
+    
+    private void clearFields() {
+        entradaID.setText("");
+        entradaEq1.setText("");
+        entradaEq2.setText("");
+        entradaTorneo.setText("");
+        entradaNombre.setText("");
+        entradatickets.setText("");
+        entradaFecha.setText("");
+        entradalugar.setText("");
+        entradaOrganizador.setText("");
     }
  
 

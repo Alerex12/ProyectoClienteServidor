@@ -5,10 +5,14 @@
 package com.mycompany.proyecto_cliente_servidor_GUI;
 
 import com.mycompany.proyecto_cliente_servidor.Cliente;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -24,9 +28,7 @@ public class Fobras extends javax.swing.JFrame {
     
     public Fobras() {
         initComponents();
-        
-        
-        
+        conexionServidor(); 
     }
 
     /**
@@ -57,7 +59,7 @@ public class Fobras extends javax.swing.JFrame {
         entradaOrganizador = new javax.swing.JTextField();
         agregarBoton = new javax.swing.JButton();
         editarBoton = new javax.swing.JButton();
-        EliminarBoton = new javax.swing.JButton();
+        eliminarBoton = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
 
@@ -89,10 +91,25 @@ public class Fobras extends javax.swing.JFrame {
         });
 
         agregarBoton.setText("Agregar");
+        agregarBoton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                agregarBotonActionPerformed(evt);
+            }
+        });
 
         editarBoton.setText("Editar");
+        editarBoton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                editarBotonActionPerformed(evt);
+            }
+        });
 
-        EliminarBoton.setText("Eliminar");
+        eliminarBoton.setText("Eliminar");
+        eliminarBoton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                eliminarBotonActionPerformed(evt);
+            }
+        });
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -111,6 +128,11 @@ public class Fobras extends javax.swing.JFrame {
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
+            }
+        });
+        jTable1.addContainerListener(new java.awt.event.ContainerAdapter() {
+            public void componentAdded(java.awt.event.ContainerEvent evt) {
+                jTable1ComponentAdded(evt);
             }
         });
         jScrollPane1.setViewportView(jTable1);
@@ -148,7 +170,7 @@ public class Fobras extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(editarBoton)
                 .addGap(61, 61, 61)
-                .addComponent(EliminarBoton)
+                .addComponent(eliminarBoton)
                 .addGap(110, 110, 110))
             .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 578, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
@@ -196,7 +218,7 @@ public class Fobras extends javax.swing.JFrame {
                 .addGap(27, 27, 27)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(editarBoton)
-                    .addComponent(EliminarBoton)
+                    .addComponent(eliminarBoton)
                     .addComponent(agregarBoton))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 285, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -206,6 +228,40 @@ public class Fobras extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+        public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(Fcliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(Fcliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(Fcliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(Fcliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
+
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                new Fobras().setVisible(true);
+            }
+        });
+    }
+    
+    
      private void conexionServidor() {
         try {
             socket = new Socket("127.0.0.1", 5000);
@@ -226,19 +282,88 @@ public class Fobras extends javax.swing.JFrame {
         }
     }
     
+        private void clearFields() {
+        entradaID.setText("");
+        entradaObra.setText("");
+        entradaConpania.setText("");
+        entradaNombre.setText("");
+        entradaTickets.setText("");
+        entradaFecha.setText("");
+        entradaLugar.setText("");
+        entradaOrganizador.setText("");
+    }
+    
     
     
     private void entradaOrganizadorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_entradaOrganizadorActionPerformed
-        // TODO add your handling code here:
+
     }//GEN-LAST:event_entradaOrganizadorActionPerformed
+
+    private void agregarBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_agregarBotonActionPerformed
+        agregarBoton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    sendRequest("Agregar," + "Obra," + entradaID.getText() + "," + entradaObra.getText() + ","
+                            + entradaConpania.getText() + ","+ entradaNombre.getText() + ","
+                            + entradaTickets.getText() + "," + entradaFecha.getText() + ","
+                            + entradaLugar.getText() + "," + entradaOrganizador.getText());
+                    clearFields();
+                } catch (IOException ex) {
+                    Logger.getLogger(Fconcierto.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        });   
+    }//GEN-LAST:event_agregarBotonActionPerformed
+
+    private void editarBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editarBotonActionPerformed
+                agregarBoton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    sendRequest("Editar," + "Obra," + entradaID.getText() + "," + entradaObra.getText() + ","
+                            + entradaConpania.getText() + ","+ entradaNombre.getText() + ","
+                            + entradaTickets.getText() + "," + entradaFecha.getText() + ","
+                            + entradaLugar.getText() + "," + entradaOrganizador.getText());
+                    clearFields();
+                } catch (IOException ex) {
+                    Logger.getLogger(Fconcierto.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }); 
+        
+        
+    }//GEN-LAST:event_editarBotonActionPerformed
+
+    private void eliminarBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eliminarBotonActionPerformed
+        eliminarBoton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    sendRequest("Eliminar," + "Obra," + entradaNombre.getText());
+                    clearFields();
+                } catch (IOException ex) {
+                    Logger.getLogger(Fcliente.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }); 
+    }//GEN-LAST:event_eliminarBotonActionPerformed
+
+    private void jTable1ComponentAdded(java.awt.event.ContainerEvent evt) {//GEN-FIRST:event_jTable1ComponentAdded
+        try {
+            sendRequest("Mostrar," + "Obra");
+        } catch (IOException ex) {
+            Logger.getLogger(Fcliente.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jTable1ComponentAdded
 
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton EliminarBoton;
     private javax.swing.JButton agregarBoton;
     private javax.swing.JLabel companiatxt;
     private javax.swing.JButton editarBoton;
+    private javax.swing.JButton eliminarBoton;
     private javax.swing.JTextField entradaConpania;
     private javax.swing.JTextField entradaFecha;
     private javax.swing.JTextField entradaID;

@@ -6,10 +6,14 @@ package com.mycompany.proyecto_cliente_servidor_GUI;
 
 import com.mycompany.proyecto_cliente_servidor.Cliente;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 public class Fcliente extends javax.swing.JFrame {
@@ -22,10 +26,7 @@ public class Fcliente extends javax.swing.JFrame {
 
     public Fcliente() {
         initComponents();
-        
-        
-        
-        
+        conexionServidor();  
     }
 
     /**
@@ -123,6 +124,11 @@ public class Fcliente extends javax.swing.JFrame {
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
+            }
+        });
+        TablaDatos.addContainerListener(new java.awt.event.ContainerAdapter() {
+            public void componentAdded(java.awt.event.ContainerEvent evt) {
+                TablaDatosComponentAdded(evt);
             }
         });
         jScrollPane2.setViewportView(TablaDatos);
@@ -279,7 +285,17 @@ public class Fcliente extends javax.swing.JFrame {
         }
     }
     
-    
+    private void clearFields() {
+        entradaCedula.setText("");
+        entradaNombre.setText("");
+        entradaApellido.setText("");
+        entradaUsuario.setText("");
+        entradaClave.setText("");
+        entradaCorreo.setText("");
+        entradaTarjeta.setText("");
+    }
+        
+
     
     
     private void entradaCedulaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_entradaCedulaActionPerformed
@@ -291,21 +307,58 @@ public class Fcliente extends javax.swing.JFrame {
     }//GEN-LAST:event_entradaNombreActionPerformed
 
     private void eliminarBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eliminarBotonActionPerformed
-        // TODO add your handling code here:
-        
-        
+        eliminarBoton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    sendRequest("Eliminar,"+"Cliente," + entradaNombre.getText());
+                    clearFields();
+                } catch (IOException ex) {
+                    Logger.getLogger(Fcliente.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }});  
     }//GEN-LAST:event_eliminarBotonActionPerformed
 
     private void editarBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editarBotonActionPerformed
-        // TODO add your handling code here:
+        editarBoton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    sendRequest("Editar,"+"Cliente," + entradaCedula.getText() + "," + entradaNombre.getText() +
+                            "," +  entradaApellido.getText()+","+entradaUsuario.getText()+","+
+                            entradaClave.getText()+","+entradaCorreo.getText()+","+entradaTarjeta.getText());
+                    clearFields();
+                } catch (IOException ex) {
+                    Logger.getLogger(Fcliente.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        });
     }//GEN-LAST:event_editarBotonActionPerformed
 
     private void botonAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAgregarActionPerformed
-  
+         botonAgregar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    sendRequest("Agregar," +"Cliente,"+ entradaCedula.getText() + "," + entradaNombre.getText() +
+                            "," +  entradaApellido.getText()+","+entradaUsuario.getText()+","+
+                            entradaClave.getText()+","+entradaCorreo.getText()+","+entradaTarjeta.getText());
+                    clearFields();
+                } catch (IOException ex) {
+                    Logger.getLogger(Fcliente.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        });   
     }//GEN-LAST:event_botonAgregarActionPerformed
 
-    
-    
+    private void TablaDatosComponentAdded(java.awt.event.ContainerEvent evt) {//GEN-FIRST:event_TablaDatosComponentAdded
+        try {
+            sendRequest("Mostrar,"+"Cliente");
+        } catch (IOException ex) {
+            Logger.getLogger(Fcliente.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_TablaDatosComponentAdded
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -332,6 +385,7 @@ public class Fcliente extends javax.swing.JFrame {
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
             public void run() {
                 new Fcliente().setVisible(true);
             }
